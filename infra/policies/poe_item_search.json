@@ -1,0 +1,18 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ICannotBeAskedToAlsoFixThisUp",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter",
+        "sns:Publish",
+        "appsync:ListGraphqlApis",
+        "appsync:CreateApiKey",
+        "appsync:DeleteApiKey"
+       
+      ],
+      "Resource": "*"
+    }
+  ]
+}
