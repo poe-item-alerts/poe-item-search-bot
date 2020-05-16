@@ -58,7 +58,7 @@ async def find(ctx, *args):
             players[player["account_name"]].append(player["item"])
         message = Embed(title=title)
         for player, items in players.items():
-            if len(message.embeds) == 25:
+            if len(message.fields) == 25:
                 await ctx.send(embed=message)
                 message = Embed(title=title)
             message.add_field(
