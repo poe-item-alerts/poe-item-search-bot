@@ -5,7 +5,8 @@
       "Sid": "ICannotBeAskedToAlsoFixThisUp",
       "Effect": "Allow",
       "Action": [
-        "lambda:InvokeFunction"
+        "lambda:InvokeFunction",
+        "kms:Decrypt"
       ],
       "Resource": "*"
     }
