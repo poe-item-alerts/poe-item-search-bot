@@ -6,7 +6,8 @@
       "Effect": "Allow",
       "Action": [
         "lambda:InvokeFunction",
-        "kms:Decrypt"
+        "kms:Decrypt",
+        "ssm:PutParameter"
       ],
       "Resource": "*"
     }
