@@ -39,7 +39,6 @@ async def find(ctx, *args):
         f_name = list(f.keys())[0]
         f_val = list(f.values())[0]
         title = f"{f_name} | {f_val}"
-        message = Embed(title=title)
         payload = {
             "filter": f
         }
@@ -57,18 +56,23 @@ async def find(ctx, *args):
             players[player["account_name"]] = []
         for player in result:
             players[player["account_name"]].append(player["item"])
-       
+        message = Embed(title=title)
         for player, items in players.items():
+            if len(message.embeds) == 25:
+                await ctx.send(embed=message)
+                message = Embed(title=title)
             message.add_field(
                 name=player,
                 value=", ".join(items),
                 inline=True,
             )
+        else:
+            await ctx.send(embed=message)
+
         stop_time = time.perf_counter()
         duration = f"{stop_time - start_time:0.2f}"
         message.add_field(name="Duration", value=f"{duration}s", inline=False)
         logger.debug(f"Sending message...")
-        await ctx.send(embed=message)
         logger.debug(f"Ran query in {duration} seconds")
 
 
