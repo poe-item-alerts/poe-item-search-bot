@@ -71,7 +71,10 @@ async def set_league(ctx, league_name):
     client = boto3.client("ssm", region_name="eu-central-1")
     logger.debug(f"Got set_league event {ctx}")
     client.put_parameter(
-        Name="/poe-item-alert/league", Value=league_name, Type="String", Overwrite=True
+        Name="/poe-item-alerts/character-load/ladders",
+        Value=league_name,
+        Type="String",
+        Overwrite=True
     )
     await ctx.send(f"Set active league: {league_name}")
 
@@ -80,7 +83,7 @@ async def set_league(ctx, league_name):
 async def get_league(ctx):
     client = boto3.client("ssm", region_name="eu-central-1")
     logger.debug(f"Got get_league event {ctx}")
-    resp = client.get_parameter(Name="/poe-item-alert/league")
+    resp = client.get_parameter(Name="/poe-item-alerts/character-load/ladders")
     league = resp["Parameter"]["Value"]
     await ctx.send(f"Current active league: {league}")
 

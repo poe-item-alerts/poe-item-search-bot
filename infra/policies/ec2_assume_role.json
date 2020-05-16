@@ -5,7 +5,7 @@
       "Action": "sts:AssumeRole",
       "Principal": {
         "Service": [
-          "lambda.amazonaws.com"
+          "ec2.amazonaws.com"
         ]
       },
       "Effect": "Allow"
