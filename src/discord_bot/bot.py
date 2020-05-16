@@ -51,11 +51,17 @@ async def find(ctx, *args):
         )
         result = json.loads(resp["Payload"].read().decode("utf-8"))
         logger.debug(f"Lambda ran successfully!")
+        players = {}
         for player in result:
             logger.debug(f"Adding {player['account_name']} to message...")
+            players[player["account_name"]] = []
+        for player in result:
+            players[player["account_name"]].append(player["item"])
+       
+        for player, items in players.items():
             message.add_field(
-                name=player["account_name"],
-                value=player["item"],
+                name=player,
+                value=", ".join(items),
                 inline=True,
             )
         stop_time = time.perf_counter()
