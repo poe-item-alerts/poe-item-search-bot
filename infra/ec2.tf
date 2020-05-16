@@ -5,6 +5,7 @@ resource "aws_instance" "web" {
     subnet_id = "subnet-67c8101d"
     vpc_security_group_ids = [aws_security_group.bot.id]
     iam_instance_profile = aws_iam_instance_profile.bot.name
+    user_data = file("data/userdata.sh")
 }
 
 
