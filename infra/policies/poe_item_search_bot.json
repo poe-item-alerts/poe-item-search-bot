@@ -5,12 +5,7 @@
       "Sid": "ICannotBeAskedToAlsoFixThisUp",
       "Effect": "Allow",
       "Action": [
-        "ssm:GetParameter",
-        "sns:Publish",
-        "appsync:ListGraphqlApis",
-        "appsync:CreateApiKey",
-        "appsync:DeleteApiKey"
-       
+        "lambda:InvokeFunction"
       ],
       "Resource": "*"
     }
