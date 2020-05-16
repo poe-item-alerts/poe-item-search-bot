@@ -1,0 +1,38 @@
+name: Test terraform
+
+on:
+  pull_request:
+    paths:
+      - 'infra/**'
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Terraform Setup'
+        run: |
+          wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
+          unzip terraform_0.12.24_linux_amd64.zip
+          sudo mv terraform /usr/local/bin
+          rm terraform_0.12.24_linux_amd64.zip
+      - name: 'Terraform Format'
+        run: |
+          cd infra/
+          terraform fmt
+      - name: 'Terraform Init'
+        run: |
+          cd infra/
+          terraform init
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: 'Terraform Plan'
+        run: |
+          cd infra/
+          terraform plan
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
