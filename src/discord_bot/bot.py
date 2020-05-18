@@ -55,15 +55,30 @@ async def find(ctx, *args):
             logger.debug(f"Adding {player['account_name']} to message...")
             players[player["account_name"]] = []
         for player in result:
-            players[player["account_name"]].append(player["item"])
+            players[player["account_name"]].append(
+                {
+                    "item_line": player["item"],
+                    "created": player["created"],
+                    "inventory_id": player["inventory_id"]
+                }
+            )
         message = Embed(title=title)
         for player, items in players.items():
+            result_items = []
+            for item in items:
+                result_item = item["item_line"]
+                for i in items:
+                    if item["inventory_id"] == i["inventory_id"]:
+                        if item["created"] < i["created"]:
+                            result_item = i["item_line"]
+                result_items.append(result_item)
+
             if len(message.fields) == 25:
                 await ctx.send(embed=message)
                 message = Embed(title=title)
             message.add_field(
                 name=player,
-                value=", ".join(items),
+                value=", ".join(result_items),
                 inline=True,
             )
         else:
