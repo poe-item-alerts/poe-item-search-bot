@@ -68,7 +68,7 @@ async def find(ctx, *args):
         message = Embed(title=title)
         for player, items in players.items():
             result_items = []
-            items = sorted(items, key=itemgetter("typeLine"))
+            items = sorted(items, key=itemgetter("inventory_id"))
             for key, value in itertools.groupby(items, key=itemgetter("inventory_id")):
                 tmp = sorted(list(value), key=itemgetter("created"), reverse=True)[0]
                 result_items.append(tmp["item_line"])
