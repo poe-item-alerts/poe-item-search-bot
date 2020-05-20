@@ -2,8 +2,11 @@ import logging
 import os
 import time
 import json
+import itertools
 
 import boto3
+
+from operator import itemgetter
 
 from discord import Embed
 from discord.ext import commands
@@ -65,13 +68,16 @@ async def find(ctx, *args):
         message = Embed(title=title)
         for player, items in players.items():
             result_items = []
-            for item in items:
-                result_item = item["item_line"]
-                for i in items:
-                    if item["inventory_id"] == i["inventory_id"]:
-                        if item["created"] < i["created"]:
-                            result_item = i["item_line"]
-                result_items.append(result_item)
+            items = sorted(items, key=itemgetter("typeLine"))
+            for key, value in itertools.groupby(items, key=itemgetter("inventory_id")):
+                tmp = sorted(list(value), key=itemgetter("created"), reverse=True)[0]
+                result_items.append(tmp["item_line"])
+            # for item in items:
+            #     result_item = item["item_line"]
+            #     for i in items:
+            #         if item["inventory_id"] == i["inventory_id"]:
+            #             if item["created"] < i["created"]:
+            #                 result_item = i["item_line"]
 
             if len(message.fields) == 25:
                 await ctx.send(embed=message)
