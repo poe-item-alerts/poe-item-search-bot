@@ -11,6 +11,8 @@ from operator import itemgetter
 from discord import Embed
 from discord.ext import commands
 
+from util import match_player_to_acc
+
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("poe_item_search_bot")
@@ -67,6 +69,9 @@ async def find(ctx, *args):
             )
         message = Embed(title=title)
         for player, items in players.items():
+            known_player = match_player_to_acc(player)
+            if known_player:
+                player= known_player
             result_items = []
             items = sorted(items, key=itemgetter("inventory_id"))
             for key, value in itertools.groupby(items, key=itemgetter("inventory_id")):
