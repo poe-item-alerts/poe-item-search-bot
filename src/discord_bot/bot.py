@@ -41,8 +41,8 @@ async def find(ctx, *args):
             filters.append(tmp)
         logger.debug(f"Created filter list: {filters}")
     for f in filters:
-        f_name = list(f.keys())[0]
-        f_val = list(f.values())[0]
+        f_name = "+".join(list(f.keys()))
+        f_val = "+".join(list(f.values()))
         title = f"{f_name} | {f_val}"
         payload = {
             "filter": f
