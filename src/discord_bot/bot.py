@@ -124,4 +124,16 @@ async def get_league(ctx):
     await ctx.send(f"Current active league: {league}")
 
 
+@bot.command()
+async def enable_ingest(ctx, status):
+    ssm = boto3.client("ssm")
+    admin_id = client.get_paramter(Name="/poe-item-alerts/admin-id")["Parameter"]["Value"]
+    if ctx.message.author.id == int(admin_id):
+        client = boto3.client("events")
+        if status:
+            client.enable_rule(Name="poe_ladder_exporter")
+        else:
+            client.disable_rule(Name="poe_ladder_exporter")
+            
+
 bot.run(os.environ["DISCORD_TOKEN"])
