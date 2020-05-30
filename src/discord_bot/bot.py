@@ -125,15 +125,19 @@ async def get_league(ctx):
 
 
 @bot.command()
-async def enable_ingest(ctx, status):
+async def cfg_ingest(ctx, status):
     ssm = boto3.client("ssm")
     admin_id = client.get_paramter(Name="/poe-item-alerts/admin-id")["Parameter"]["Value"]
     if ctx.message.author.id == int(admin_id):
         client = boto3.client("events")
-        if status:
+        if status == "enable":
             client.enable_rule(Name="poe_ladder_exporter")
-        else:
+            await ctx.send("Enabled ingestion!")
+        elif status == "disable":
             client.disable_rule(Name="poe_ladder_exporter")
+            await ctx.send("Disabled ingestion!")
+        else:
+            await ctx.send("Didn't recognise the status please use either 'enable' or 'disable'")
             
 
 bot.run(os.environ["DISCORD_TOKEN"])
