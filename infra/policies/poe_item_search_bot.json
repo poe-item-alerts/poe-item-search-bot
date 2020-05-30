@@ -7,7 +7,9 @@
       "Action": [
         "lambda:InvokeFunction",
         "kms:Decrypt",
-        "ssm:PutParameter"
+        "ssm:PutParameter",
+        "events:EnableRule",
+        "events:DisableRule"
       ],
       "Resource": "*"
     }
